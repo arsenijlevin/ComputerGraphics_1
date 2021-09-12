@@ -1,6 +1,6 @@
 package ru.vsu.computergraphics.levin;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,35 +8,34 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DrawingPanel extends JFrame implements ActionListener {
-  private final int BACKGROUND_WIDTH = 800;
-  private final int BACKGROUND_HEIGHT = 800;
-  private final int TIMER_DELAY = 1000;
+public class DrawingPanel extends JPanel implements ActionListener {
+  private final int TIMER_DELAY = 100;
   private final Timer timer = new Timer(TIMER_DELAY, this);
+  private final int backgroundWidth;
+  private final int backgroundHeight;
   private int ticksFromStart = 0;
 
-  public DrawingPanel() {
-    setTitle("Drawing Panel");
-    setSize(BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+  public DrawingPanel(int panelWidth, int panelHeight) {
+    this.backgroundWidth = panelWidth;
+    this.backgroundHeight = panelHeight;
+
+    setSize(panelWidth, panelHeight);
     setVisible(true);
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
     timer.start();
   }
 
   @Override
-  public void paint(Graphics g) {
+  public void paintComponent(Graphics g) {
     Graphics2D g2d = (Graphics2D) g;
 
-    this.setBackground(Color.BLACK);
+    super.paintComponent(g);
+
+    this.setBackground(Color.YELLOW);
 
     g2d.setColor(Color.BLACK);
-    g2d.fillRect(
-        ticksFromStart, BACKGROUND_HEIGHT / 2, BACKGROUND_WIDTH / 10, BACKGROUND_WIDTH / 10);
+    g2d.drawOval(ticksFromStart, backgroundHeight / 2, backgroundWidth / 10, backgroundHeight / 10);
     g2d.setColor(Color.GREEN);
-    g2d.fillOval(
-        ticksFromStart, BACKGROUND_HEIGHT / 2, BACKGROUND_HEIGHT / 10, BACKGROUND_WIDTH / 10);
-
-
+    g2d.fillOval(ticksFromStart, backgroundHeight / 2, backgroundWidth / 10, backgroundHeight / 10);
   }
 
   @Override
