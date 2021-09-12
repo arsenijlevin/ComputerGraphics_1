@@ -5,8 +5,10 @@ import javax.swing.Timer;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Ellipse2D;
 
 public class DrawingPanel extends JPanel implements ActionListener {
   private final int TIMER_DELAY = 100;
@@ -32,10 +34,14 @@ public class DrawingPanel extends JPanel implements ActionListener {
 
     this.setBackground(Color.YELLOW);
 
+    Shape circleShape =
+        new Ellipse2D.Double(
+            ticksFromStart, backgroundHeight / 2d, backgroundWidth / 10d, backgroundHeight / 10d);
+
     g2d.setColor(Color.BLACK);
-    g2d.drawOval(ticksFromStart, backgroundHeight / 2, backgroundWidth / 10, backgroundHeight / 10);
-    g2d.setColor(Color.GREEN);
-    g2d.fillOval(ticksFromStart, backgroundHeight / 2, backgroundWidth / 10, backgroundHeight / 10);
+    g2d.fill(circleShape);
+    g2d.setColor(Color.RED);
+    g2d.draw(circleShape);
   }
 
   @Override
