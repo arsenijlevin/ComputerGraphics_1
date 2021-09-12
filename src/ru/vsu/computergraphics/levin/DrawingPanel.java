@@ -27,16 +27,16 @@ public class DrawingPanel extends JFrame implements ActionListener {
   public void paint(Graphics g) {
     Graphics2D g2d = (Graphics2D) g;
 
-    g2d.setColor(Color.WHITE);
-    g2d.fillRect(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+    this.setBackground(Color.BLACK);
 
     g2d.setColor(Color.BLACK);
-
     g2d.fillRect(
         ticksFromStart, BACKGROUND_HEIGHT / 2, BACKGROUND_WIDTH / 10, BACKGROUND_WIDTH / 10);
     g2d.setColor(Color.GREEN);
     g2d.fillOval(
         ticksFromStart, BACKGROUND_HEIGHT / 2, BACKGROUND_HEIGHT / 10, BACKGROUND_WIDTH / 10);
+
+
   }
 
   @Override
