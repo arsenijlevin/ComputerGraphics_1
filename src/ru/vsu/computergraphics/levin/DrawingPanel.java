@@ -34,14 +34,17 @@ public class DrawingPanel extends JPanel implements ActionListener {
 
     this.setBackground(Color.YELLOW);
 
-    Shape circleShape =
-        new Ellipse2D.Double(
-            ticksFromStart, backgroundHeight / 2d, backgroundWidth / 10d, backgroundHeight / 10d);
+    Figure circle =
+        new Figure(
+            new Ellipse2D.Double(
+                ticksFromStart,
+                backgroundHeight / 2d,
+                backgroundWidth / 10d,
+                backgroundHeight / 10d),
+            Color.BLACK,
+            Color.GREEN);
 
-    g2d.setColor(Color.BLACK);
-    g2d.fill(circleShape);
-    g2d.setColor(Color.RED);
-    g2d.draw(circleShape);
+    circle.drawFigure(g2d);
   }
 
   @Override
