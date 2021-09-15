@@ -1,6 +1,6 @@
 package ru.vsu.computergraphics.levin;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,42 +8,57 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DrawingPanel extends JFrame implements ActionListener {
-  private final int BACKGROUND_WIDTH = 800;
-  private final int BACKGROUND_HEIGHT = 800;
-  private final int TIMER_DELAY = 1000;
-  private final Timer timer = new Timer(TIMER_DELAY, this);
-  private int ticksFromStart = 0;
+public class DrawingPanel extends JPanel implements ActionListener {
+  private final int TIMER_DELAY = 1;
+  private final int OVAL_COUNT = 8;
+  private final int SPEED = 10;
+  private final int OVAL_SIZE = 75;
 
-  public DrawingPanel() {
-    setTitle("Drawing Panel");
-    setSize(BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+  private final Timer timer = new Timer(TIMER_DELAY, this);
+  private final int backgroundWidth;
+  private final int backgroundHeight;
+  private int x = 0;
+  private int delta;
+
+  public DrawingPanel(int panelWidth, int panelHeight) {
+    this.backgroundWidth = panelWidth;
+    this.backgroundHeight = panelHeight;
+    this.delta = SPEED;
+    setSize(panelWidth, panelHeight);
     setVisible(true);
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
     timer.start();
   }
 
   @Override
-  public void paint(Graphics g) {
+  public void paintComponent(Graphics g) {
     Graphics2D g2d = (Graphics2D) g;
 
-    g2d.setColor(Color.WHITE);
-    g2d.fillRect(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+    super.paintComponent(g);
 
-    g2d.setColor(Color.BLACK);
+    this.setBackground(Color.GRAY);
 
-    g2d.fillRect(
-        ticksFromStart, BACKGROUND_HEIGHT / 2, BACKGROUND_WIDTH / 10, BACKGROUND_WIDTH / 10);
-    g2d.setColor(Color.GREEN);
-    g2d.fillOval(
-        ticksFromStart, BACKGROUND_HEIGHT / 2, BACKGROUND_HEIGHT / 10, BACKGROUND_WIDTH / 10);
+    if (x + delta < 0) {
+      delta = SPEED;
+    } else if (x + delta > getWidth() - OVAL_SIZE) {
+      delta = -SPEED;
+    }
+    x = x + delta;
+
+    int gapBetweenOvals = backgroundHeight / OVAL_COUNT - 5;
+
+    for (int i = 0; i < OVAL_COUNT; i++) {
+      int x = (i % 2 == 0) ? this.x : -this.x + getWidth() - OVAL_SIZE;
+      Oval oval =
+          new Oval(
+              x, gapBetweenOvals * i, OVAL_SIZE, OVAL_SIZE, Color.ORANGE, Color.ORANGE);
+      oval.draw(g2d);
+    }
   }
 
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == timer) {
       repaint();
-      ++ticksFromStart;
     }
   }
 }
