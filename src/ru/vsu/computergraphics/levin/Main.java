@@ -1,8 +1,6 @@
 package ru.vsu.computergraphics.levin;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
 
 public class Main {
 
