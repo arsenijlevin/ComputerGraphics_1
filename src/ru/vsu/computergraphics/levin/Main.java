@@ -16,8 +16,8 @@ public class Main {
   }
 
   public static void main(String[] args) {
-    final int WINDOW_WIDTH = 800;
-    final int WINDOW_HEIGHT = 800;
+    final int WINDOW_WIDTH = 1000;
+    final int WINDOW_HEIGHT = 1000;
 
     javax.swing.SwingUtilities.invokeLater(() -> initializeGUI(WINDOW_WIDTH, WINDOW_HEIGHT));
   }
