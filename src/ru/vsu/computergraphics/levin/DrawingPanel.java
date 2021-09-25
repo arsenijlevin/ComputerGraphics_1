@@ -10,14 +10,14 @@ import java.awt.event.ActionListener;
 
 public class DrawingPanel extends JPanel implements ActionListener {
   private final int TIMER_DELAY = 1;
-  private final int OVAL_COUNT = 8;
+  private final int OVAL_COUNT = 9;
   private final int SPEED = 10;
   private final int OVAL_SIZE = 75;
 
   private final Timer timer = new Timer(TIMER_DELAY, this);
   private final int backgroundWidth;
   private final int backgroundHeight;
-  private int x = 0;
+  private int xCord = 0;
   private int delta;
 
   public DrawingPanel(int panelWidth, int panelHeight) {
@@ -37,28 +37,32 @@ public class DrawingPanel extends JPanel implements ActionListener {
 
     this.setBackground(Color.GRAY);
 
-    if (x + delta < 0) {
-      delta = SPEED;
-    } else if (x + delta > getWidth() - OVAL_SIZE) {
-      delta = -SPEED;
-    }
-    x = x + delta;
-
-    int gapBetweenOvals = backgroundHeight / OVAL_COUNT - 5;
-
-    for (int i = 0; i < OVAL_COUNT; i++) {
-      int x = (i % 2 == 0) ? this.x : -this.x + getWidth() - OVAL_SIZE;
-      Oval oval =
-          new Oval(
-              x, gapBetweenOvals * i, OVAL_SIZE, OVAL_SIZE, Color.ORANGE, Color.ORANGE);
-      oval.draw(g2d);
-    }
+    drawOvals(OVAL_COUNT, OVAL_SIZE, g2d);
   }
 
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == timer) {
       repaint();
+    }
+  }
+
+  private void drawOvals(int count, int size, Graphics2D g2d) {
+    if (xCord + delta < 0) {
+      delta = SPEED;
+    } else if (xCord + delta > getWidth() - OVAL_SIZE) {
+      delta = -SPEED;
+    }
+    xCord = xCord + delta;
+
+    int gapBetweenOvals = backgroundHeight / count - 5;
+
+    for (int i = 0; i < count; i++) {
+      int newXOval = (i % 2 == 1) ? this.xCord : -this.xCord + getWidth() - size;
+      Oval oval =
+              new Oval(
+                      newXOval, gapBetweenOvals * i, size, size, Color.ORANGE, Color.ORANGE);
+      oval.draw(g2d);
     }
   }
 }
